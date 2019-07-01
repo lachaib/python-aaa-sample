@@ -1,0 +1,10 @@
+import os
+
+HOOK_FILE='.git/hooks/pre-commit'
+
+with open(HOOK_FILE, 'w') as hook:
+    hook.write('''#!/usr/bin/env sh
+
+python setup.py test
+''')
+os.chmod(HOOK_FILE, 0o755)

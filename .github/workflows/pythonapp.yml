@@ -24,5 +24,3 @@ jobs:
     - name: Test with integrated linters and coverage
       run: |
         python setup.py test
-        coverage xml
-        coverage html

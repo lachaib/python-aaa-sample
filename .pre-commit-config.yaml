@@ -1,0 +1,71 @@
+---
+default_language_version:
+  python: python3.12
+
+default_install_hook_types:
+  - pre-commit
+  - prepare-commit-msg
+
+default_stages:
+  - pre-commit
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: "v4.5.0"
+    hooks:
+      - id: check-added-large-files
+      - id: end-of-file-fixer
+        exclude: .vscode
+      - id: trailing-whitespace
+      - id: check-ast
+      - id: check-yaml
+      - id: check-toml
+      - id: check-json
+      - id: pretty-format-json
+        exclude: .vscode
+      - id: check-symlinks
+      - id: check-shebang-scripts-are-executable
+      - id: forbid-new-submodules
+      - id: mixed-line-ending
+
+  - repo: local
+    # using local version to keep versions aligned with the dependencies defined in pyproject.toml
+    hooks:
+      - id: ruff-lint
+        name: lint code with ruff
+        entry: ruff
+        language: python
+        pass_filenames: true
+        types_or: [python, pyi]
+        args: ["check", "--fix"]
+      - id: ruff-format
+        name: format code with ruff
+        entry: ruff
+        language: python
+        pass_filenames: true
+        types_or: [python, pyi]
+        args: ["check", "--fix"]
+      - id: mypy
+        name: mypy
+        entry: mypy
+        language: python
+        pass_filenames: true
+        types_or: [python, pyi]
+      - id: pylint
+        name: pylint
+        entry: pylint
+        language: python
+        pass_filenames: true
+        types_or: [python, pyi]
+      - id: pytest-check
+        name: pytest-check
+        entry: pytest
+        args: ["--cov", "--cov-report", "term-missing"]
+        language: system
+        pass_filenames: false
+        types_or: [python, pyi, pyproj, toml]
+
+  - repo: https://github.com/lachaib/jira-commit-msg
+    rev: v0.1
+    hooks:
+      - id: jira-commit-msg
